@@ -1,0 +1,36 @@
+82c82
+<             self.ready()
+---
+>             # self.ready()
+558,562c558,579
+<                     yield (sender, receiver, message)
+<                 elif operation.type in [ 60, 61 ]:
+<                     pass
+<                 else:
+<                     print "[*] %s" % OT._VALUES_TO_NAMES[operation.type]
+---
+>                     #print "[*] %s" % OT._VALUES_TO_NAMES[operation.type], str(operation)
+>                     yield (sender, receiver, message, operation.createdTime)
+>                 elif operation.type == OT.SEND_CHAT_CHECKED:
+>                     param1 = self.getContactOrRoomOrGroupById(operation.param1)
+>                     # param2 = self.getContactOrRoomOrGroupById(operation.param2)
+>                     # param3 = operation.param3
+> 
+>                     print "[c] %s: %s" % (OT._VALUES_TO_NAMES[operation.type], param1)
+>                 elif operation.type == OT.NOTIFIED_READ_MESSAGE:
+>                     param1 = self.getContactOrRoomOrGroupById(operation.param1)
+>                     param2 = self.getContactOrRoomOrGroupById(operation.param2)
+>                     # param3 = operation.param3
+>                     time = operation.createdTime
+>                     strtime = datetime.datetime.fromtimestamp(int(time)/1000.0).strftime('%Y-%m-%d %H:%M:%S')
+> 
+>                     print "[r] %s:in %s read by %s" % (strtime, param1, param2)
+>                 elif operation.type == OT.NOTIFIED_UPDATE_PROFILE:
+>                     param1 = self.getContactOrRoomOrGroupById(operation.param1)
+>                     print "[*] %s: %s" % (
+>                             OT._VALUES_TO_NAMES[operation.type],
+>                             param1
+>                     )
+563a581,582
+>                 else:
+>                     print "[*] %s" % OT._VALUES_TO_NAMES[operation.type], str(operation)
